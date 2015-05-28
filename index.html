@@ -18,15 +18,16 @@
         <table class="table table-striped">
             <tbody>
                 <tr ng-repeat="blog in blogs | orderBy:'-upvotes'">
-                    <td class="glyphicon glyphicon glyphicon-arrow-up" ng-click="incrementUpvotesBlog(blog)"></td>
-                    <td>{{blog.upvotes}}</td>
+                    <td><span class="glyphicon glyphicon-arrow-up" ng-click="incrementUpvotesBlog(blog)"></span>
+                    <span class="glyphicon glyphicon-arrow-down" ng-click="decrementUpvotesBlog(blog)"></span>
+                    <span>{{blog.upvotes}}</span></td>
                     <td>
                         <a ng-show="blog.link" href="{{blog.link}}">
                             {{blog.title}}
                         </a>
-              <span ng-hide="blog.link">
-                {{blog.title}}
-              </span>
+                        <span ng-hide="blog.link">
+                            {{blog.title}}
+                        </span>
                     </td>
                 </tr>
             </tbody>

@@ -21,5 +21,11 @@ app.controller('MainCtrl', [
         $scope.incrementUpvotesBlog = function(post) {
             post.upvotes += 1;
         };
+
+        $scope.decrementUpvotesBlog = function(post) {
+            if (post.upvotes >= 1) {
+                post.upvotes -= 1;
+            }
+        };
     }
 ]);
