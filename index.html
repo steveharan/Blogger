@@ -1,0 +1,57 @@
+<html>
+<head>
+    <title>Flapper News</title>
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+    <script src="app.js"></script>
+    <style> .glyphicon-thumbs-up { cursor:pointer } </style>
+</head>
+<body ng-app="Blogger" ng-controller="MainCtrl">
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+
+        <div class="page-header">
+            <h1>Steve's Mean Blog</h1>
+        </div>
+
+        <table class="table table-striped">
+            <tbody>
+                <tr ng-repeat="blog in blogs | orderBy:'-upvotes'">
+                    <td class="glyphicon glyphicon glyphicon-arrow-up" ng-click="incrementUpvotesBlog(blog)"></td>
+                    <td>{{blog.upvotes}}</td>
+                    <td>
+                        <a ng-show="blog.link" href="{{blog.link}}">
+                            {{blog.title}}
+                        </a>
+              <span ng-hide="blog.link">
+                {{blog.title}}
+              </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <form ng-submit="addBlog()"
+              style="margin-top:30px;">
+            <h3>Add a new blog</h3>
+
+            <div class="form-group">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Title"
+                       ng-model="title"/>
+            </div>
+            <div class="form-group">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Link"
+                       ng-model="link"/>
+            </div>
+            <button type="submit" class="btn btn-primary">Blog It!</button>
+        </form>
+
+    </div>
+</div>
+</body>
+</html>
