@@ -52,12 +52,13 @@ angular.module('Blogger', ['ui.router'])
     .controller('BlogsCtrl', [
         '$scope',
         '$stateParams',
+        '$location',
         'blogs',
-        function($scope, $stateParams, blogs) {
+        function($scope, $stateParams, $location, blogs) {
             $scope.blog = blogs.blogs[$stateParams.id];
 
             $scope.addComment = function(){
-                if($scope.body === '') { return; }
+                if(!$scope.body || $scope.body === '') { return; }
                 $scope.blog.comments.push({
                     body: $scope.body,
                     author: 'user',
@@ -72,6 +73,9 @@ angular.module('Blogger', ['ui.router'])
                 if (comment.upvotes >= 1) {
                     comment.upvotes -= 1;
                 }
+            };
+            $scope.cancelComment = function(comment) {
+                $location.path( '/home.html' );
             };
         }
     ])
