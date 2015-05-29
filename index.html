@@ -25,13 +25,13 @@
         <tr ng-repeat="blog in blogs | orderBy:'-upvotes'">
             <td><span class="glyphicon glyphicon-arrow-up" ng-click="incrementUpvotesBlog(blog)"></span>
                 <span class="glyphicon glyphicon-arrow-down" ng-click="decrementUpvotesBlog(blog)"></span>
-                <span>{{blog.upvotes}}</span></td>
+                <span ng-bind="blog.upvotes"/></td>
             <td>
                 <a ng-show="blog.link" href="{{blog.link}}">
-                    {{blog.title}}
+                    <span ng-bind="blog.title"/>
                 </a>
                         <span ng-hide="blog.link">
-                            {{blog.title}}
+                            <span ng-bind="blog.title"/>
                         </span>
             </td>
             <td>
@@ -67,10 +67,10 @@
     <div class="page-header">
         <h3>
             <a ng-show="blog.link" href="{{blog.link}}">
-                {{blog.title}}
+                <span ng-bind="blog.title"/>
             </a>
       <span ng-hide="blog.link">
-        {{blog.title}}
+        <span ng-bind="blog.title"/>
       </span>
         </h3>
     </div>
@@ -83,13 +83,13 @@
                       ng-click="incrementUpvotesComment(comment)"></span>
                     <span class="glyphicon glyphicon-arrow-down"
                           ng-click="decrementUpvotesComment(comment)"></span>
-                    <span>{{comment.upvotes}}</span>
+                    <span ng-bind="comment.upvotes"></span>
                 </td>
                 <td style="font-size:20px; margin-left:10px;">
-                  {{comment.body}}
+                    <span ng-bind="comment.body"></span>
                 </td>
                 <td style="font-size:10px; margin-left:10px;">
-                    {{comment.author}}
+                    <span ng-bind="comment.author"></span>
                 </td>
             </tr>
         </tbody>
