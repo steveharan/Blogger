@@ -1,19 +1,40 @@
-var app = angular.module('Blogger', []);
+angular.module('Blogger', ['ui.router'])
+.config([
+        '$stateProvider',
+        '$urlRouterProvider',
+        function($stateProvider, $urlRouterProvider) {
+            $stateProvider
+                .state('home', {
+                    url: '/home',
+                    templateUrl: '/home.html',
+                    controller: 'MainCtrl'
+                })
+                .state('blogs', {
+                    url: '/blogs/{id}',
+                    templateUrl: '/blogs.html',
+                    controller: 'BlogsCtrl'
+                });
 
-app.controller('MainCtrl', [
+            $urlRouterProvider.otherwise('home');
+        }])
+    .controller('MainCtrl', [
     '$scope',
-    function($scope){
-        $scope.blogs = [
-            {title: 'Blogg 1', upvotes: 5},
-            {title: 'Blogg 2', upvotes: 2},
-            {title: 'Blogg 3', upvotes: 15},
-            {title: 'Blogg 4', upvotes: 9},
-            {title: 'Blogg 5', upvotes: 4}
-        ];
+    'blogs',
+    function($scope, blogs){
+
+        $scope.blogs = blogs.blogs;
 
         $scope.addBlog = function() {
             if (!$scope.title || $scope.title == '') { return; }
-            $scope.blogs.push({title: $scope.title, link: $scope.link, upvotes: 0});
+            $scope.blogs.push({
+                title: $scope.title,
+                link: $scope.link,
+                upvotes: 0,
+                comments: [
+                    {author: 'Steve', body: 'Good Post Dude', upvotes: 0},
+                    {author: 'Jon', body: 'eh?', upvotes: 0}
+                ]
+            });
             $scope.title = '';
             $scope.link = '';
         };
@@ -27,5 +48,36 @@ app.controller('MainCtrl', [
                 post.upvotes -= 1;
             }
         };
-    }
-]);
+    }])
+    .controller('BlogsCtrl', [
+        '$scope',
+        '$stateParams',
+        'blogs',
+        function($scope, $stateParams, blogs) {
+            $scope.blog = blogs.blogs[$stateParams.id];
+
+            $scope.addComment = function(){
+                if($scope.body === '') { return; }
+                $scope.blog.comments.push({
+                    body: $scope.body,
+                    author: 'user',
+                    upvotes: 0
+                });
+                $scope.body = '';
+            };
+            $scope.incrementUpvotesComment = function(comment) {
+                comment.upvotes += 1;
+            };
+            $scope.decrementUpvotesComment = function(comment) {
+                if (comment.upvotes >= 1) {
+                    comment.upvotes -= 1;
+                }
+            };
+        }
+    ])
+.factory('blogs', [function(){
+    var o = {
+        blogs: []
+    };
+    return o;
+}]);
